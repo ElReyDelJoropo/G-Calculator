@@ -21,7 +21,7 @@ class Calculator:
         )
 
         self.unary_operators = ("x²", "x³")
-        self.operator = None
+        self.operator = ""
         self.accumulator = 0
         self.operand_list = []
 
@@ -126,7 +126,7 @@ class Calculator:
         self.buffer.set(temp)
 
     def putOperator(self, op: str):
-        if len(self.buffer.get()) == 0:
+        if len(self.buffer.get()) == 0 and not self.isUnary(self.operator):
             return
 
         if self.equal_latch:
