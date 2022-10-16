@@ -1,11 +1,10 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter import font
 
 
 class Calculator:
     def __init__(self) -> None:
-        self.root = Tk()
+        self.root = Tk(baseName="Calculadora")
         self.mainframe = ttk.Frame(self.root)
 
         self.buffer = StringVar(self.mainframe)
@@ -33,7 +32,7 @@ class Calculator:
     
     def createWidgets(self):
         operators = ["+","-","x","/","x²","x³"]
-        special_keys = {"C": self.clear, "CE" : self.clear, "=" : self.equal, "B" : self.backspace, "⁺/-" : self.sign}
+        special_keys = {"C": self.clear, "CE" : self.cleanBuffer, "=" : self.equal, "B" : self.backspace, "⁺/-" : self.sign}
         self.buttons = []
 
         #Numeric buttons 0-9
@@ -49,21 +48,23 @@ class Calculator:
     def layoutWidgets(self):
         self.mainframe.grid()
 
-        self.result.grid(row=1,column=0,columnspan=4)
-        self.sub_result.grid(row=0,column=0,columnspan=4)
+        self.result.grid(row=1,column=0,columnspan=4,sticky=E+W)
+        self.sub_result.grid(row=0,column=0,columnspan=4,sticky=E+W)
+
         for i in range(len(self.buttons)):
             self.buttons[i].grid(row=7-i//4,column=i%4,padx=1,pady=1)
             
 
     def setStyle(self):
         self.style = ttk.Style()
+        self.style.configure("Dracula1.TFrame",background="#4D4D4D")
         self.style.configure(
             "Dracula1.TButton",
             foreground="#9AEDFE",
             background="#282A36",
             font="Arial 12",
-            height=10,
-            width=4,
+            height=11,
+            width=3,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -72,26 +73,25 @@ class Calculator:
         self.style.configure(
             "Dracula2.TButton",
             foreground="blue",
-            background="black",
+            background="#CAA9FA",
             font="Arial 12",
         )
         self.style.configure(
             "Dracula1.TLabel",
-            foreground="black",
-            background="white",
+            foreground="white",
+            background="#282A36",
             font="Arial 16",
-            width=20,
             anchor=E,
         )
         self.style.configure(
             "Dracula2.TLabel",
             foreground="white",
-            background="black",
+            background="#282A36",
             font="Arial 12",
-            width=20,
             anchor=E,
         )
 
+        self.mainframe.configure(style="Dracula1.TFrame")
         self.result.configure(style="Dracula1.TLabel")
         self.sub_result.configure(style="Dracula2.TLabel")
         for button in self.buttons:
@@ -103,6 +103,9 @@ class Calculator:
             self.equal_latch = False
 
         sz = len(self.buffer.get())
+
+        if self.isUnary(self.operator):
+            return
 
         if not (sz == 5 or (number == "0" and sz == 0)):
             self.buffer.set(self.buffer.get() + number)
@@ -176,6 +179,9 @@ class Calculator:
         self.buffer.set("")
         self.sub_buffer.set("")
         self.equal_latch = False
+
+    def cleanBuffer(self):
+        self.buffer.set("")
 
     def display(self):
         self.root.mainloop()
