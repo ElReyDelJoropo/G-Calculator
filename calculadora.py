@@ -25,61 +25,79 @@ class Calculator:
         self.operand_list = []
 
         self.equal_latch = False
+        self.dot_latch = False
 
         self.createWidgets()
         self.setStyle()
         self.layoutWidgets()
-    
+
     def createWidgets(self):
-        operators = ["+","-","x","/","x²","x³"]
-        special_keys = {"C": self.clear, "CE" : self.cleanBuffer, "=" : self.equal, "B" : self.backspace, "⁺/-" : self.sign}
+        operators = ["+", "-", "x", "/", "x²", "x³"]
+        special_keys = {
+            "C": self.clear,
+            "CE": self.cleanBuffer,
+            "=": self.equal,
+            "B": self.backspace,
+            "⁺/-": self.sign,
+            ".": self.dot,
+            ",": self.comma,
+        }
         self.buttons = {}
 
-        #Numeric buttons 0-9
+        # Numeric buttons 0-9
         for i in range(10):
-            self.buttons[i] = (ttk.Button(self.mainframe,text=str(i),command=lambda x=str(i): self.putNumber(x)))
-        #Operators
+            self.buttons[i] = ttk.Button(
+                self.mainframe, text=str(i), command=lambda x=str(i): self.putNumber(x)
+            )
+        # Operators
         for operator in operators:
-            self.buttons[operator] = (ttk.Button(self.mainframe,text=operator,command=lambda op=operator: self.putOperator(op)))
-        #Special keys
+            self.buttons[operator] = ttk.Button(
+                self.mainframe,
+                text=operator,
+                command=lambda op=operator: self.putOperator(op),
+            )
+        # Special keys
         for key in special_keys:
-            self.buttons[key] = (ttk.Button(self.mainframe,text=key,command=lambda func=special_keys[key]: func()))
-    
+            self.buttons[key] = ttk.Button(
+                self.mainframe, text=key, command=lambda func=special_keys[key]: func()
+            )
+
     def layoutWidgets(self):
         self.mainframe.grid()
 
-        self.result.grid(row=1,column=0,columnspan=4,sticky=E+W)
-        self.sub_result.grid(row=0,column=0,columnspan=4,sticky=E+W)
+        self.result.grid(row=1, column=0, columnspan=4, sticky=E + W)
+        self.sub_result.grid(row=0, column=0, columnspan=4, sticky=E + W)
 
-        #First we place all numeric buttons but 0
-        for i in range(1,10):
-            self.buttons[i].grid(row=6-(i-1)//3,column=(i-1)%3,padx=1,pady=1)
-        self.buttons[0].grid(row=7,column=1,padx=1,pady=1)
-        
-        #Operators
-        self.buttons["+"].grid(row=6,column=3,padx=1,pady=1)
-        self.buttons["-"].grid(row=5,column=3,padx=1,pady=1)
-        self.buttons["x"].grid(row=4,column=3,padx=1,pady=1)
-        self.buttons["/"].grid(row=3,column=3,padx=1,pady=1)
-        self.buttons["x²"].grid(row=3,column=2,padx=1,pady=1)
-        self.buttons["x³"].grid(row=3,column=1,padx=1,pady=1)
+        # First we place all numeric buttons but 0
+        for i in range(1, 10):
+            self.buttons[i].grid(
+                row=6 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1
+            )
+        self.buttons[0].grid(row=7, column=1, padx=1, pady=1)
 
-        #Special keys
-        self.buttons["="].grid(row=7,column=3,padx=1,pady=1)
-        self.buttons["C"].grid(row=2,column=2,padx=1,pady=1)
-        self.buttons["CE"].grid(row=2,column=1,padx=1,pady=1)
-        self.buttons["B"].grid(row=2,column=3,padx=1,pady=1)
-        self.buttons["⁺/-"].grid(row=7,column=0,padx=1,pady=1)
+        # Operators
+        self.buttons["+"].grid(row=6, column=3, padx=1, pady=1)
+        self.buttons["-"].grid(row=5, column=3, padx=1, pady=1)
+        self.buttons["x"].grid(row=4, column=3, padx=1, pady=1)
+        self.buttons["/"].grid(row=3, column=3, padx=1, pady=1)
+        self.buttons["x²"].grid(row=3, column=2, padx=1, pady=1)
+        self.buttons["x³"].grid(row=3, column=1, padx=1, pady=1)
+        self.buttons[","].grid(row=7, column=2, padx=1, pady=1)
+        self.buttons["."].grid(row=3, column=0, padx=1, pady=1)
 
+        # Special keys
+        self.buttons["="].grid(row=7, column=3, padx=1, pady=1)
+        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1)
+        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1)
+        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1)
+        self.buttons["⁺/-"].grid(row=7, column=0, padx=1, pady=1)
 
-
-#        for i in range(len(self.buttons)):
-#            self.buttons[i].grid(row=7-i//4,column=i%4,padx=1,pady=1)
-            
+    #        for i in range(len(self.buttons)):
+    #            self.buttons[i].grid(row=7-i//4,column=i%4,padx=1,pady=1)
 
     def setStyle(self):
         self.style = ttk.Style()
-        self.style.configure("Dracula1.TFrame",background="#4D4D4D")
+        self.style.configure("Dracula1.TFrame", background="#4D4D4D")
         self.style.configure(
             "Dracula1.TButton",
             foreground="#9AEDFE",
@@ -138,6 +156,14 @@ class Calculator:
     def isUnary(self, operator: str):
         return operator in self.unary_operators
 
+    def dot(self):
+        if self.dot_latch:
+            return
+        self.buffer.set(self.buffer.get() + ".")
+        self.dot_latch = True
+
+    def comma(self):
+        pass
 
     def sign(self):
         temp = self.buffer.get()
@@ -175,9 +201,7 @@ class Calculator:
             self.sub_buffer.set(self.buffer.get() + true_op)
         self.buffer.set("")
 
-        # These are unaries operator, so we can execute it immediatly, like windows calculator
-        #if self.operator in self.unary_operators:
-        #    self.equal()
+        self.dot_latch = False
 
     def equal(self):
         if self.equal_latch:
@@ -190,7 +214,7 @@ class Calculator:
 
         temp = self.sub_buffer.get() + self.buffer.get()
 
-        #if self.operator in ["x²","x³"]:
+        # if self.operator in ["x²","x³"]:
         #    self.rhs = int(self.buffer.get())
 
         self.buffer.set(str(round(eval(temp), 9)))
