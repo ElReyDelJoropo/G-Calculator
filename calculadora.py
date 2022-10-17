@@ -208,9 +208,11 @@ class Calculator:
         self.function_latch = True
 
         if (len(temp) != 0):
-            self.sub_buffer.set("self."+functions[function].__name__ + "(" + temp + ",")
+            self.sub_buffer.set(functions[function].__name__ + "(" + temp + ",")
+            self.eval_buffer = "self." + functions[function].__name__ + "(" + temp + ","
         else:
-            self.sub_buffer.set("self."+functions[function].__name__ + "(")
+            self.sub_buffer.set(functions[function].__name__ + "(")
+            self.eval_buffer = "self." + functions[function].__name__ + "("
 
     #Probably these functions exist in the standard library
     #But i implemented for educational purposes
@@ -242,7 +244,7 @@ class Calculator:
         return operator in self.unary_operators
 
     def dot(self):
-        if self.dot_latch:
+        if self.dot_latch or not self.buffer.get():
             return
         self.buffer.set(self.buffer.get() + ".")
         self.dot_latch = True
@@ -259,8 +261,10 @@ class Calculator:
         #For first argumnet and operators we put comma on right side, otherwise to left side
         if temp[-1] == "(" or temp[-1] not in range(10):
             temp += self.buffer.get() + ","
+            self.eval_buffer += self.buffer.get() + ","
         else:
             temp += "," + self.buffer.get()
+            self.eval_buffer += "," + self.eval_buffer
         self.sub_buffer.set(temp)
         self.buffer.set("")
         self.dot_latch = False
@@ -284,6 +288,7 @@ class Calculator:
         #Allow result-operator chaining
         if self.equal_latch:
             self.sub_buffer.set("")
+            self.eval_buffer = ""
             self.equal_latch = False
 
         if op == "x²":
@@ -297,7 +302,8 @@ class Calculator:
 
         temp = self.sub_buffer.get()
         self.last_operator = op
-        self.sub_buffer.set(temp + self.buffer.get() + true_op)
+        self.sub_buffer.set(temp + self.buffer.get() + op)
+        self.eval_buffer += self.buffer.get() + true_op
         self.buffer.set("")
         self.dot_latch = False
 
@@ -312,13 +318,15 @@ class Calculator:
             return
 
         temp = self.sub_buffer.get() + self.buffer.get()
+        self.eval_buffer += self.buffer.get()
         
         if self.function_latch:
             temp += ")"
+            self.eval_buffer += ")"
         # if self.operator in ["x²","x³"]:
         #    self.rhs = int(self.buffer.get())
 
-        self.buffer.set(str(round(eval(temp), 9)))
+        self.buffer.set(str(round(eval(self.eval_buffer), 9)))
         self.sub_buffer.set(temp + "=")
         self.equal_latch = True
         self.dot_latch = True
@@ -327,6 +335,7 @@ class Calculator:
     def clear(self):
         self.buffer.set("")
         self.sub_buffer.set("")
+        self.eval_buffer = ""
         self.equal_latch = False
         self.dot_latch = False
         self.function_latch = False
@@ -335,6 +344,9 @@ class Calculator:
     def cleanBuffer(self):
         self.buffer.set("")
         self.dot_latch = False
+
+    def getResult(self):
+        return float(self.buffer.get())
 
     def display(self):
         self.root.mainloop()
