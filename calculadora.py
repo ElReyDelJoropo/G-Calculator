@@ -10,6 +10,7 @@ class Calculator:
         #Sub buffer trace user input
         self.buffer = StringVar(self.mainframe)
         self.sub_buffer = StringVar(self.mainframe)
+        self.eval_buffer = ""
 
         self.result = ttk.Label(
             self.mainframe,
@@ -32,9 +33,9 @@ class Calculator:
         self.layoutWidgets()
 
     def createWidgets(self):
-        operators = ["+", "-", "x", "/", "x²", "x³","M"]
-        function_keys = ["M","Me"]
-        special_keys = {
+        self.operators = ["+", "-", "x", "/", "x²", "x³"]
+        self.function_keys = ["M","Me"]
+        self.special_keys = {
             "C": self.clear,
             "CE": self.cleanBuffer,
             "=": self.equal,
@@ -51,23 +52,23 @@ class Calculator:
                 self.mainframe, text=str(i), command=lambda x=str(i): self.putNumber(x)
             )
         # Operators
-        for operator in operators:
+        for operator in self.operators:
             self.buttons[operator] = ttk.Button(
                 self.mainframe,
                 text=operator,
                 command=lambda op=operator: self.putOperator(op),
             )
         # Function keys:
-        for function in function_keys:
+        for function in self.function_keys:
             self.buttons[function] = ttk.Button(
                 self.mainframe,
                 text=function,
                 command=lambda op=function: self.putFunction(op),
             )
         # Special keys
-        for key in special_keys:
+        for key in self.special_keys:
             self.buttons[key] = ttk.Button(
-                self.mainframe, text=key, command=lambda func=special_keys[key]: func()
+                self.mainframe, text=key, command=lambda func=self.special_keys[key]: func()
             )
 
     def layoutWidgets(self):
@@ -80,30 +81,30 @@ class Calculator:
         # First we place all numeric buttons but 0
         for i in range(1, 10):
             self.buttons[i].grid(
-                row=6 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1
+                row=6 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1,sticky=N+S+W+E
             )
-        self.buttons[0].grid(row=7, column=1, padx=1, pady=1)
+        self.buttons[0].grid(row=7, column=1, padx=1, pady=1, sticky=N+S+E+W)
 
         # Operators
-        self.buttons["+"].grid(row=6, column=3, padx=1, pady=1)
-        self.buttons["-"].grid(row=5, column=3, padx=1, pady=1)
-        self.buttons["x"].grid(row=4, column=3, padx=1, pady=1)
-        self.buttons["/"].grid(row=3, column=3, padx=1, pady=1)
-        self.buttons["x²"].grid(row=3, column=2, padx=1, pady=1)
-        self.buttons["x³"].grid(row=3, column=1, padx=1, pady=1)
+        self.buttons["+"].grid(row=6, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["-"].grid(row=5, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x"].grid(row=4, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["/"].grid(row=3, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x²"].grid(row=3, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x³"].grid(row=3, column=1, padx=1, pady=1,sticky=N+S+E+W)
 
         # Special keys
-        self.buttons["="].grid(row=7, column=3, padx=1, pady=1)
-        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1)
-        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1)
-        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1)
-        self.buttons["⁺/-"].grid(row=7, column=0, padx=1, pady=1)
-        self.buttons["."].grid(row=7, column=2, padx=1, pady=1)
-        self.buttons[","].grid(row=3, column=0, padx=1, pady=1)
+        self.buttons["="].grid(row=7, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["⁺/-"].grid(row=7, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["."].grid(row=7, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons[","].grid(row=3, column=0, padx=1, pady=1,sticky=N+S+E+W)
 
         #Function keys
-        self.buttons["M"].grid(row=2, column=0, padx=1, pady=1)
-        self.buttons["Me"].grid(row=8, column=0, padx=1, pady=1)
+        self.buttons["M"].grid(row=2, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["Me"].grid(row=8, column=0, padx=1, pady=1,sticky=N+S+E+W)
 
     def setStyle(self):
         #Style based on Dracula colorscheme
@@ -123,9 +124,27 @@ class Calculator:
         )
         self.style.configure(
             "Dracula2.TButton",
-            foreground="blue",
-            background="#CAA9FA",
+            foreground="#50FA7B",
+            background="#282A36",
             font="Arial 12",
+            height=11,
+            width=3,
+            activeforeground="blue",
+            borderwidth=3,
+            relief=FLAT,
+            overrelief=FLAT,
+        )
+        self.style.configure(
+            "Dracula3.TButton",
+            foreground="#CAA9FA",
+            background="#282A36",
+            font="Arial 12",
+            height=11,
+            width=3,
+            activeforeground="blue",
+            borderwidth=3,
+            relief=FLAT,
+            overrelief=FLAT,
         )
         self.style.configure(
             "Dracula1.TLabel",
@@ -136,7 +155,7 @@ class Calculator:
         )
         self.style.configure(
             "Dracula2.TLabel",
-            foreground="white",
+            foreground="gray",
             background="#282A36",
             font="Arial 12",
             anchor=E,
@@ -145,8 +164,18 @@ class Calculator:
         self.mainframe.configure(style="Dracula1.TFrame")
         self.result.configure(style="Dracula1.TLabel")
         self.sub_result.configure(style="Dracula2.TLabel")
-        for button in self.buttons.values():
-            button.configure(style="Dracula1.TButton")
+
+        for i in range(10):
+            self.buttons[i].configure(style="Dracula1.TButton")
+        for operator in self.operators:
+            self.buttons[operator].configure(style="Dracula2.TButton")
+        for special_key in self.special_keys:
+            self.buttons[special_key].configure(style="Dracula2.TButton")
+        for function_key in self.function_keys:
+            self.buttons[function_key].configure(style="Dracula2.TButton")
+        self.buttons["B"].configure(style="Dracula2.TButton")
+        self.buttons["="].configure(style="Dracula3.TButton")
+        
 
     def putNumber(self, number: str):
         #After get a result, we need make some cleanup
@@ -223,7 +252,7 @@ class Calculator:
         if not self.function_latch:
             return
 
-        if len(self.buffer.get()) == 0:
+        if len(self.buffer.get()) == 0 and not self.isUnary(self.last_operator):
             return
 
         temp = self.sub_buffer.get()
@@ -235,6 +264,7 @@ class Calculator:
         self.sub_buffer.set(temp)
         self.buffer.set("")
         self.dot_latch = False
+        self.last_operator = "," 
 
     def sign(self):
         temp = self.buffer.get()
@@ -277,7 +307,7 @@ class Calculator:
             return
 
         if len(self.sub_buffer.get()) == 0 or (
-            len(self.buffer.get()) == 0 and self.isUnary(self.last_operator)
+            len(self.buffer.get()) == 0 and not self.isUnary(self.last_operator)
         ):
             return
 
@@ -300,6 +330,7 @@ class Calculator:
         self.equal_latch = False
         self.dot_latch = False
         self.function_latch = False
+        self.last_operator = ""
 
     def cleanBuffer(self):
         self.buffer.set("")
