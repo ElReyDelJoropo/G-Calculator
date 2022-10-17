@@ -34,7 +34,7 @@ class Calculator:
 
     def createWidgets(self):
         self.operators = ["+", "-", "x", "/", "x²", "x³"]
-        self.function_keys = ["M","Me"]
+        self.function_keys = ["M","Me","MCM","MCD"]
         self.special_keys = {
             "C": self.clear,
             "CE": self.cleanBuffer,
@@ -43,6 +43,7 @@ class Calculator:
             "⁺/-": self.sign,
             ".": self.dot,
             ",": self.comma,
+            "?": self.help
         }
         self.buttons = {}
 
@@ -81,30 +82,33 @@ class Calculator:
         # First we place all numeric buttons but 0
         for i in range(1, 10):
             self.buttons[i].grid(
-                row=6 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1,sticky=N+S+W+E
+                row=7 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1,sticky=N+S+W+E
             )
-        self.buttons[0].grid(row=7, column=1, padx=1, pady=1, sticky=N+S+E+W)
+        self.buttons[0].grid(row=8, column=1, padx=1, pady=1, sticky=N+S+E+W)
 
         # Operators
-        self.buttons["+"].grid(row=6, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["-"].grid(row=5, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x"].grid(row=4, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["/"].grid(row=3, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x²"].grid(row=3, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x³"].grid(row=3, column=1, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["+"].grid(row=7, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["-"].grid(row=6, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x"].grid(row=5, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["/"].grid(row=4, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x²"].grid(row=4, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["x³"].grid(row=4, column=1, padx=1, pady=1,sticky=N+S+E+W)
 
         # Special keys
-        self.buttons["="].grid(row=7, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["="].grid(row=8, column=3, padx=1, pady=1,sticky=N+S+E+W)
         self.buttons["C"].grid(row=2, column=2, padx=1, pady=1,sticky=N+S+E+W)
         self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1,sticky=N+S+E+W)
         self.buttons["B"].grid(row=2, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["⁺/-"].grid(row=7, column=0, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["."].grid(row=7, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons[","].grid(row=3, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["⁺/-"].grid(row=8, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["."].grid(row=8, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons[","].grid(row=4, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["?"].grid(row=2, column=0, padx=1, pady=1,sticky=N+S+E+W)
 
         #Function keys
-        self.buttons["M"].grid(row=2, column=0, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["Me"].grid(row=8, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["M"].grid(row=3, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["Me"].grid(row=3, column=1, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["MCM"].grid(row=3, column=2, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["MCD"].grid(row=3, column=3, padx=1, pady=1,sticky=N+S+E+W)
 
     def setStyle(self):
         #Style based on Dracula colorscheme
@@ -115,8 +119,8 @@ class Calculator:
             foreground="#9AEDFE",
             background="#282A36",
             font="Arial 12",
-            height=11,
-            width=3,
+            height=14,
+            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -127,8 +131,8 @@ class Calculator:
             foreground="#50FA7B",
             background="#282A36",
             font="Arial 12",
-            height=11,
-            width=3,
+            height=14,
+            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -139,8 +143,20 @@ class Calculator:
             foreground="#CAA9FA",
             background="#282A36",
             font="Arial 12",
-            height=11,
-            width=3,
+            height=14,
+            width=5,
+            activeforeground="blue",
+            borderwidth=3,
+            relief=FLAT,
+            overrelief=FLAT,
+        )
+        self.style.configure(
+            "Dracula4.TButton",
+            foreground="#F1FA8C",
+            background="#282A36",
+            font="Arial 12",
+            height=14,
+            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -172,7 +188,7 @@ class Calculator:
         for special_key in self.special_keys:
             self.buttons[special_key].configure(style="Dracula2.TButton")
         for function_key in self.function_keys:
-            self.buttons[function_key].configure(style="Dracula2.TButton")
+            self.buttons[function_key].configure(style="Dracula4.TButton")
         self.buttons["B"].configure(style="Dracula2.TButton")
         self.buttons["="].configure(style="Dracula3.TButton")
         
@@ -192,7 +208,7 @@ class Calculator:
             self.buffer.set(self.buffer.get() + number)
     
     def putFunction(self, function: str):
-        functions = {"M" : self.mean, "Me" : self.median}
+        functions = {"M" : self.mean, "Me" : self.median, "MCM" : self.MCM, "MCD":self.MCD}
         temp = ""
 
         #Same cleanup, but we store the result as function first argument
@@ -232,6 +248,12 @@ class Calculator:
             return (args[(size-1)//2] + args[size//2]) / 2
         else:
             return args[(size-1)//2]
+
+    def MCM(self,*args):
+        return len(args)
+
+    def MCD(self,*args):
+        return len(args)
 
     def backspace(self):
         temp = self.buffer.get()
@@ -347,6 +369,9 @@ class Calculator:
 
     def getResult(self):
         return float(self.buffer.get())
+    
+    def help(self):
+        pass
 
     def display(self):
         self.root.mainloop()

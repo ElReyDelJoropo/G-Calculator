@@ -2,6 +2,8 @@ import calculadora
 import unittest
 import random
 
+#I wont write more test for time purposes
+#But could be interesting add more unit tests
 class calculatorTests(unittest.TestCase):
     def setUp(self):
         self.calc = calculadora.Calculator()
@@ -19,13 +21,18 @@ class calculatorTests(unittest.TestCase):
         self.calc.equal()
         self.assertEqual(self.calc.getResult(),8)
 
+    #This test tries calculartor's thougtness by pressing random buttons
+    #Note: Is terrybly slow, also my pc is a potato
     def test_random(self):
         button_history = []
         buf = ""
         
         with open("logfile.txt","w") as logfile:
-            for i in range(1,100000):
-                button_history.append(random.choice(list(self.calc.buttons)))
+            #With range > 100000 my pc takes 6+ hours
+            #Should be a way to improve this
+            button_list = list(self.calc.buttons)
+            for i in range(1,100):
+                button_history.append(random.choice(button_list))
                 buf += str(button_history[-1]) + " "
                 self.calc.buttons[button_history[-1]].invoke()
                 if i % 48 == 0:
