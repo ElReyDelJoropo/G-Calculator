@@ -15,6 +15,17 @@ class calculatorTests(unittest.TestCase):
         self.calc.equal()
         self.assertEqual(self.calc.getResult(), 4)
 
+    def test_mean(self):
+        self.calc.putFunction("M")
+        self.calc.putNumber("2")
+        self.calc.comma()
+        self.calc.putNumber("8")
+        self.calc.putOperator("+")
+        self.calc.putNumber("3")
+        self.calc.sign()
+        self.calc.equal()
+        self.assertEqual(self.calc.getResult(), 3.5)
+
     def test_unary_operator(self):
         self.calc.putNumber("2")
         self.calc.putOperator("x³")
