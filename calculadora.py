@@ -30,6 +30,7 @@ class Calculator:
 
         self.createWidgets()
         self.setStyle()
+        self.setKeybindings()
         self.layoutWidgets()
 
     def createWidgets(self):
@@ -191,6 +192,25 @@ class Calculator:
             self.buttons[function_key].configure(style="Dracula4.TButton")
         self.buttons["B"].configure(style="Dracula2.TButton")
         self.buttons["="].configure(style="Dracula3.TButton")
+
+    def setKeybindings(self):
+        for i in range(10):
+            self.root.bind(str(i),lambda event, x = str(i): self.putNumber(x))
+            self.root.bind("<KP_"+str(i)+">",lambda event, x = str(i): self.putNumber(x))
+        
+        self.root.bind("+",lambda event: self.buttons["+"].invoke())
+        self.root.bind("-",lambda event: self.buttons["-"].invoke())
+        self.root.bind("*",lambda event: self.buttons["x"].invoke())
+        self.root.bind("/",lambda event: self.buttons["/"].invoke())
+        self.root.bind("<KP_Add>",lambda event: self.buttons["+"].invoke())
+        self.root.bind("<KP_Subtract>",lambda event: self.buttons["-"].invoke())
+        self.root.bind("<KP_Multiply>",lambda event: self.buttons["x"].invoke())
+        self.root.bind("<KP_Divide>",lambda event: self.buttons["/"].invoke())
+
+        self.root.bind("<Return>",lambda event: self.buttons["="].invoke())
+        self.root.bind("<KP_Enter>",lambda event: self.buttons["="].invoke())
+        self.root.bind("<BackSpace>",lambda event: self.backspace())
+        self.root.bind("<Delete>",lambda event: self.clear())
 
     def putNumber(self, number: str):
         #After get a result, we need make some cleanup
