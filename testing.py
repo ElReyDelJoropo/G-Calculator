@@ -27,7 +27,7 @@ class calculatorTests(unittest.TestCase):
         button_history = []
         buf = ""
         
-        with open("logfile.txt","w") as logfile:
+        with open("logfile.txt","w",encoding="utf-8") as logfile:
             #With range > 100000 my pc takes 6+ hours
             #Should be a way to improve this
             button_list = list(self.calc.buttons)

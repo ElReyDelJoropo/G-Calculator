@@ -191,7 +191,6 @@ class Calculator:
             self.buttons[function_key].configure(style="Dracula4.TButton")
         self.buttons["B"].configure(style="Dracula2.TButton")
         self.buttons["="].configure(style="Dracula3.TButton")
-        
 
     def putNumber(self, number: str):
         #After get a result, we need make some cleanup
