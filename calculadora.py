@@ -5,6 +5,7 @@ from tkinter import ttk
 class Calculator:
     def __init__(self) -> None:
         self.root = Tk(className="Calculator")
+        self.root.resizable(False,False)
         self.mainframe = ttk.Frame(self.root)
 
         # Buffer contains current user input
