@@ -30,8 +30,8 @@ class Calculator:
         self.dot_latch = False
         self.function_latch = False
 
-        self.createWidgets()
         self.setStyle()
+        self.createWidgets()
         self.setKeybindings()
         self.layoutWidgets()
 
@@ -52,29 +52,29 @@ class Calculator:
 
         # Numeric buttons 0-9
         for i in range(10):
-            self.buttons[i] = ttk.Button(
-                self.mainframe, text=str(i), command=lambda x=str(i): self.putNumber(x)
+            self.buttons[i] = Button(
+                self.mainframe, text=str(i), command=lambda x=str(i): self.putNumber(x), **self.style_button_dracula1
             )
         # Operators
         for operator in self.operators:
-            self.buttons[operator] = ttk.Button(
+            self.buttons[operator] = Button(
                 self.mainframe,
                 text=operator,
-                command=lambda op=operator: self.putOperator(op),
+                command=lambda op=operator: self.putOperator(op),**self.style_button_dracula2
             )
         # Function keys:
         for function in self.function_keys:
-            self.buttons[function] = ttk.Button(
+            self.buttons[function] = Button(
                 self.mainframe,
                 text=function,
-                command=lambda op=function: self.putFunction(op),
+                command=lambda op=function: self.putFunction(op),**self.style_button_dracula3
             )
         # Special keys
         for key in self.special_keys:
-            self.buttons[key] = ttk.Button(
+            self.buttons[key] = Button(
                 self.mainframe,
                 text=key,
-                command=lambda func=self.special_keys[key]: func(),
+                command=lambda func=self.special_keys[key]: func(),**self.style_button_dracula4
             )
 
     def layoutWidgets(self):
@@ -121,57 +121,11 @@ class Calculator:
 
     def setStyle(self):
         # Style based on Dracula colorscheme
+        self.style_button_dracula1 = {"foreground" : "#9AEDFE", "background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 1, "relief" : FLAT}
+        self.style_button_dracula2 = {"foreground" : "#50FA7B", "background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 1, "relief" : FLAT}
+        self.style_button_dracula3 = {"foreground" : "#CAA9FA", "background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 1, "relief" : FLAT}
+        self.style_button_dracula4 = {"foreground" : "#F1FA8C", "background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 1, "relief" : FLAT}
         self.style = ttk.Style()
-        self.style.configure("Dracula1.TFrame", background="#4D4D4D")
-        self.style.configure("TkDefault.TButton", background="#282a36")
-        self.style.configure(
-            "Dracula1.TButton",
-            foreground="#9AEDFE",
-            background="#282A36",
-            font="Arial 12",
-            height=14,
-            width=5,
-            activeforeground="blue",
-            borderwidth=3,
-            relief=FLAT,
-            overrelief=FLAT,
-        )
-        self.style.configure(
-            "Dracula2.TButton",
-            foreground="#50FA7B",
-            background="#282A36",
-            font="Arial 12",
-            height=14,
-            width=5,
-            activeforeground="blue",
-            borderwidth=3,
-            relief=FLAT,
-            overrelief=FLAT,
-        )
-        self.style.configure(
-            "Dracula3.TButton",
-            foreground="#CAA9FA",
-            background="#282A36",
-            font="Arial 12",
-            height=14,
-            width=5,
-            activeforeground="blue",
-            borderwidth=3,
-            relief=FLAT,
-            overrelief=FLAT,
-        )
-        self.style.configure(
-            "Dracula4.TButton",
-            foreground="#F1FA8C",
-            background="#282A36",
-            font="Arial 12",
-            height=14,
-            width=5,
-            activeforeground="blue",
-            borderwidth=3,
-            relief=FLAT,
-            overrelief=FLAT,
-        )
         self.style.configure(
             "Dracula1.TLabel",
             foreground="white",
@@ -186,20 +140,10 @@ class Calculator:
             font="Arial 12",
             anchor=E,
         )
-
         self.mainframe.configure(style="Dracula1.TFrame")
         self.result.configure(style="Dracula1.TLabel")
         self.sub_result.configure(style="Dracula2.TLabel")
 
-        for i in range(10):
-            self.buttons[i].configure(style="Dracula1.TButton")
-        for operator in self.operators:
-            self.buttons[operator].configure(style="Dracula2.TButton")
-        for special_key in self.special_keys:
-            self.buttons[special_key].configure(style="Dracula2.TButton")
-        for function_key in self.function_keys:
-            self.buttons[function_key].configure(style="Dracula4.TButton")
-        self.buttons["="].configure(style="Dracula3.TButton")
 
     def setKeybindings(self):
         for i in range(10):
