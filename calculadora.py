@@ -67,14 +67,14 @@ class Calculator:
             self.buttons[function] = Button(
                 self.mainframe,
                 text=function,
-                command=lambda op=function: self.putFunction(op),**self.style_button_common,**self.style_button_dracula3
+                command=lambda op=function: self.putFunction(op),**self.style_button_common,**self.style_button_dracula4
             )
         # Special keys
         for key in self.special_keys:
             self.buttons[key] = Button(
                 self.mainframe,
                 text=key,
-                command=lambda func=self.special_keys[key]: func(),**self.style_button_common,**self.style_button_dracula4
+                command=lambda func=self.special_keys[key]: func(),**self.style_button_common,**self.style_button_dracula3
             )
 
     def layoutWidgets(self):
