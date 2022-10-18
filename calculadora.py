@@ -74,7 +74,7 @@ class Calculator:
             self.buttons[key] = ttk.Button(
                 self.mainframe,
                 text=key,
-                command=lambda func=self.special_keys[key]: func(),
+                command=lambda func=self.special_keys[key]: func()
             )
 
     def layoutWidgets(self):
@@ -129,8 +129,6 @@ class Calculator:
             foreground="#9AEDFE",
             background="#282A36",
             font="Arial 12",
-            height=14,
-            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -141,8 +139,6 @@ class Calculator:
             foreground="#50FA7B",
             background="#282A36",
             font="Arial 12",
-            height=14,
-            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -153,8 +149,6 @@ class Calculator:
             foreground="#CAA9FA",
             background="#282A36",
             font="Arial 12",
-            height=14,
-            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
@@ -165,8 +159,6 @@ class Calculator:
             foreground="#F1FA8C",
             background="#282A36",
             font="Arial 12",
-            height=14,
-            width=5,
             activeforeground="blue",
             borderwidth=3,
             relief=FLAT,
