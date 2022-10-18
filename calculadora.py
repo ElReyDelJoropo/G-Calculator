@@ -277,7 +277,7 @@ class Calculator:
         self.buffer.set(temp[0:-1])
 
     def isUnary(self, operator: str):
-        self.unary_operators = ("x²", "x³")
+        self.unary_operators = ("²", "³")
         return operator in self.unary_operators
 
     def dot(self):
@@ -329,8 +329,10 @@ class Calculator:
             self.equal_latch = False
 
         if op == "x²":
+            op = "²"
             true_op = "**2"
         elif op == "x³":
+            op = "³"
             true_op = "**3"
         elif op == "x":
             true_op = "*"
