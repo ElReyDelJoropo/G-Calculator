@@ -121,7 +121,7 @@ class Calculator:
 
     def setStyle(self):
         # Style based on Dracula colorscheme
-        self.style_button_common = {"background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 0, "relief" : FLAT}
+        self.style_button_common = {"background" : "#282A36", "font" : "Arial 14", "height" : 2, "width" : 5, "borderwidth" : 0, "relief" : FLAT}
         self.style_button_dracula1 = {"foreground" : "#9AEDFE", "activebackground" : "#9AEDFE", "activeforeground": "white", "highlightbackground" : "white"}
         self.style_button_dracula2 = {"foreground" : "#50FA7B", "activebackground" : "#50FA7B", "activeforeground": "white", "highlightbackground" : "white"}
         self.style_button_dracula3 = {"foreground" : "#CAA9FA", "activebackground" : "#CAA9FA", "activeforeground": "white", "highlightbackground" : "white"}
@@ -131,14 +131,14 @@ class Calculator:
             "Dracula1.TLabel",
             foreground="white",
             background="#282A36",
-            font="Arial 16",
+            font="Arial 18",
             anchor=E,
         )
         self.style.configure(
             "Dracula2.TLabel",
             foreground="gray",
             background="#282A36",
-            font="Arial 12",
+            font="Arial 14",
             anchor=E,
         )
         self.style.configure(
