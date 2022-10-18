@@ -121,11 +121,11 @@ class Calculator:
 
     def setStyle(self):
         # Style based on Dracula colorscheme
-        self.style_button_common = {"background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 0, "relief" : FLAT, "highlightcolor" : "white"}
-        self.style_button_dracula1 = {"foreground" : "#9AEDFE"}
-        self.style_button_dracula2 = {"foreground" : "#50FA7B"}
-        self.style_button_dracula3 = {"foreground" : "#CAA9FA"}
-        self.style_button_dracula4 = {"foreground" : "#F1FA8C"}
+        self.style_button_common = {"background" : "#282A36", "font" : "Arial 12", "height" : 2, "width" : 5, "borderwidth" : 0, "relief" : FLAT}
+        self.style_button_dracula1 = {"foreground" : "#9AEDFE", "activebackground" : "#9AEDFE", "activeforeground": "white", "highlightbackground" : "white"}
+        self.style_button_dracula2 = {"foreground" : "#50FA7B", "activebackground" : "#50FA7B", "activeforeground": "white", "highlightbackground" : "white"}
+        self.style_button_dracula3 = {"foreground" : "#CAA9FA", "activebackground" : "#CAA9FA", "activeforeground": "white", "highlightbackground" : "white"}
+        self.style_button_dracula4 = {"foreground" : "#F1FA8C", "activebackground" : "#F1FA8C", "activeforeground": "white", "highlightbackground" : "white"}
         self.style = ttk.Style()
         self.style.configure(
             "Dracula1.TLabel",
