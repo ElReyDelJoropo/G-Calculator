@@ -4,7 +4,7 @@ from tkinter import ttk
 
 class Calculator:
     def __init__(self) -> None:
-        self.root = Tk(className="Hola")
+        self.root = Tk(className="Calculator")
         self.mainframe = ttk.Frame(self.root)
 
         # Buffer contains current user input
@@ -36,12 +36,12 @@ class Calculator:
 
     def createWidgets(self):
         self.operators = ["+", "-", "x", "/", "x²", "x³"]
-        self.function_keys = ["M", "Me", "MCM", "MCD"]
+        self.function_keys = ["M", "Me", "LCM", "GCD"]
         self.special_keys = {
             "C": self.clear,
             "CE": self.cleanBuffer,
             "=": self.equal,
-            "B": self.backspace,
+            "←": self.backspace,
             "⁺/-": self.sign,
             ".": self.dot,
             ",": self.comma,
@@ -106,7 +106,7 @@ class Calculator:
         self.buttons["="].grid(row=8, column=3, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons["C"].grid(row=2, column=2, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["←"].grid(row=2, column=3, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons["⁺/-"].grid(row=8, column=0, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons["."].grid(row=8, column=2, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons[","].grid(row=4, column=0, padx=1, pady=1, sticky=N + S + E + W)
@@ -115,13 +115,14 @@ class Calculator:
         # Function keys
         self.buttons["M"].grid(row=3, column=0, padx=1, pady=1, sticky=N + S + E + W)
         self.buttons["Me"].grid(row=3, column=1, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["MCM"].grid(row=3, column=2, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["MCD"].grid(row=3, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["LCM"].grid(row=3, column=2, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["GCD"].grid(row=3, column=3, padx=1, pady=1, sticky=N + S + E + W)
 
     def setStyle(self):
         # Style based on Dracula colorscheme
         self.style = ttk.Style()
         self.style.configure("Dracula1.TFrame", background="#4D4D4D")
+        self.style.configure("TkDefault.TButton", background="#282a36")
         self.style.configure(
             "Dracula1.TButton",
             foreground="#9AEDFE",
@@ -197,7 +198,6 @@ class Calculator:
             self.buttons[special_key].configure(style="Dracula2.TButton")
         for function_key in self.function_keys:
             self.buttons[function_key].configure(style="Dracula4.TButton")
-        self.buttons["B"].configure(style="Dracula2.TButton")
         self.buttons["="].configure(style="Dracula3.TButton")
 
     def setKeybindings(self):
@@ -243,8 +243,8 @@ class Calculator:
         functions = {
             "M": self.mean,
             "Me": self.median,
-            "MCM": self.MCM,
-            "MCD": self.MCD,
+            "LCM": self.LCM,
+            "GCD": self.GCD,
         }
         temp = ""
 
@@ -269,27 +269,9 @@ class Calculator:
 
     # Probably these functions exist in the standard library
     # But i implemented for educational purposes
-    def mean(self, *args):
-        if len(args) == 0:
-            return 0
-        ret = 0
-        for arg in args:
-            ret += arg
-        return ret / len(args)
 
-    def median(self, *args):
-        if len(args) == 0:
-            return 0
-        size = len(args)
-        if size % 2 == 0:
-            return (args[(size - 1) // 2] + args[size // 2]) / 2
-        else:
-            return args[(size - 1) // 2]
-
-    def MCM(self, *args):
-        return len(args)
-
-    def MCD(self, *args):
+    # TODO:Not implemented yet
+    def GCD(self, *args):
         return len(args)
 
     def backspace(self):
@@ -403,6 +385,27 @@ class Calculator:
     def cleanBuffer(self):
         self.buffer.set("")
         self.dot_latch = False
+
+    def mean(self, *args):
+        if len(args) == 0:
+            return 0
+        ret = 0
+        for arg in args:
+            ret += arg
+        return ret / len(args)
+
+    def median(self, *args):
+        if len(args) == 0:
+            return 0
+        size = len(args)
+        if size % 2 == 0:
+            return (args[(size - 1) // 2] + args[size // 2]) / 2
+        else:
+            return args[(size - 1) // 2]
+
+    # TODO:Not implemented yet
+    def LCM(self, *args):
+        return len(args)
 
     def getResult(self):
         return float(self.buffer.get())
