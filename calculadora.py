@@ -129,8 +129,6 @@ class Calculator:
             foreground="#9AEDFE",
             background="#282A36",
             font="Arial 12",
-            activeforeground="blue",
-            borderwidth=3,
             relief=FLAT,
             overrelief=FLAT,
         )
@@ -139,8 +137,6 @@ class Calculator:
             foreground="#50FA7B",
             background="#282A36",
             font="Arial 12",
-            activeforeground="blue",
-            borderwidth=3,
             relief=FLAT,
             overrelief=FLAT,
         )
@@ -149,8 +145,6 @@ class Calculator:
             foreground="#CAA9FA",
             background="#282A36",
             font="Arial 12",
-            activeforeground="blue",
-            borderwidth=3,
             relief=FLAT,
             overrelief=FLAT,
         )
@@ -159,8 +153,6 @@ class Calculator:
             foreground="#F1FA8C",
             background="#282A36",
             font="Arial 12",
-            activeforeground="blue",
-            borderwidth=3,
             relief=FLAT,
             overrelief=FLAT,
         )
@@ -178,6 +170,10 @@ class Calculator:
             font="Arial 12",
             anchor=E,
         )
+        self.style.map("Dracula1.TButton",background=[('pressed','#9AEDFE'),('active','#9AEDFE')],foreground=[('pressed' , 'white'),('active','white')])
+        self.style.map("Dracula2.TButton",background=[('pressed','#50FA7B'),('active','#50FA7B')],foreground=[('pressed' , 'white'),('active','white')])
+        self.style.map("Dracula3.TButton",background=[('pressed','#CAA9FA'),('active','#CAA9FA')],foreground=[('pressed' , 'white'),('active','white')])
+        self.style.map("Dracula4.TButton",background=[('pressed','#F1FA8C'),('active','#F1FA8C')],foreground=[('pressed' , 'white'),('active','white')])
 
         self.mainframe.configure(style="Dracula1.TFrame")
         self.result.configure(style="Dracula1.TLabel")
