@@ -1,0 +1,42 @@
+This is a basic guide to understand how this calculator works. I consider that 
+my code is self-explanatory, but this resource lets you to extend calculators 
+functionality.
+
+The main idea behind this calculator is parse user input trough buttons and 
+call eval() function.
+
+It uses buffer and sub_buffer to display information to user, the former 
+contains user current input, the latter acts like an accumulator, tracing all 
+user input, then this buffer but modified(I'll explain it later bellow) is 
+passed to eval() to perform the operations.
+
+It also contains control logic to validate user input and avoid malformed 
+expressions. I have used latches to perform this
+
+To handle this in a simple and modular way I classified calculators buttons in 
+4 categories: numbers, operators, functions, and special keys:
+
+* Numbers are the simplest, just call putNumber() function using itself as 
+parameter. 
+
+* Operators includes common math operations (add, sub, mul, div). Just like 
+numbers, they call putOperator() function passing itself as a parameter. 
+
+*Functions includes a few common math functions(mean, median, LCM,etc). They 
+call putFunction() and work together with comma operator. Worth noting that 
+this calculator does not support nested functions, but perhaps could be 
+implemented later soon.
+
+*Special operators, this category contains buttons that doesn't fit in latter 
+categories, either for his non-template functionality or be actually special 
+buttons that not perform operations, like backspace, dot and clear. They call 
+their own functions.
+
+It also relevant to notice that actually calculator writes to 3 buffers rather 
+than 2, the third one is called eval_buffer. This is made to display the user 
+input in a more readable way, replacing python operators with common math 
+operators like "*"/"x" or "**2"/"×2"
+
+So to extend this calculator, is as simply as create a new button in any of the 
+described categories, implement a function if it is required and display it on 
+the frame.
