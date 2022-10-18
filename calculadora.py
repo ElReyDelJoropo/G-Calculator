@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter import ttk
 
+
 class Calculator:
     def __init__(self) -> None:
-        self.root = Tk(baseName="Calculadora")
+        self.root = Tk(className="Hola")
         self.mainframe = ttk.Frame(self.root)
 
-        #Buffer contains current user input 
-        #Sub buffer trace user input
+        # Buffer contains current user input
+        # Sub buffer trace user input
         self.buffer = StringVar(self.mainframe)
         self.sub_buffer = StringVar(self.mainframe)
         self.eval_buffer = ""
@@ -20,10 +21,10 @@ class Calculator:
             self.mainframe,
             textvariable=self.sub_buffer,
         )
-        
+
         self.last_operator = ""
 
-        #Latches drives the main logic of calculator correctness
+        # Latches drives the main logic of calculator correctness
         self.equal_latch = False
         self.dot_latch = False
         self.function_latch = False
@@ -35,7 +36,7 @@ class Calculator:
 
     def createWidgets(self):
         self.operators = ["+", "-", "x", "/", "x²", "x³"]
-        self.function_keys = ["M","Me","MCM","MCD"]
+        self.function_keys = ["M", "Me", "MCM", "MCD"]
         self.special_keys = {
             "C": self.clear,
             "CE": self.cleanBuffer,
@@ -44,7 +45,7 @@ class Calculator:
             "⁺/-": self.sign,
             ".": self.dot,
             ",": self.comma,
-            "?": self.help
+            "?": self.help,
         }
         self.buttons = {}
 
@@ -70,11 +71,13 @@ class Calculator:
         # Special keys
         for key in self.special_keys:
             self.buttons[key] = ttk.Button(
-                self.mainframe, text=key, command=lambda func=self.special_keys[key]: func()
+                self.mainframe,
+                text=key,
+                command=lambda func=self.special_keys[key]: func(),
             )
 
     def layoutWidgets(self):
-        #Is a bunch of boilerplate code, but is necessary
+        # Is a bunch of boilerplate code, but is necessary
         self.mainframe.grid()
 
         self.result.grid(row=1, column=0, columnspan=4, sticky=E + W)
@@ -83,36 +86,40 @@ class Calculator:
         # First we place all numeric buttons but 0
         for i in range(1, 10):
             self.buttons[i].grid(
-                row=7 - (i - 1) // 3, column=(i - 1) % 3, padx=1, pady=1,sticky=N+S+W+E
+                row=7 - (i - 1) // 3,
+                column=(i - 1) % 3,
+                padx=1,
+                pady=1,
+                sticky=N + S + W + E,
             )
-        self.buttons[0].grid(row=8, column=1, padx=1, pady=1, sticky=N+S+E+W)
+        self.buttons[0].grid(row=8, column=1, padx=1, pady=1, sticky=N + S + E + W)
 
         # Operators
-        self.buttons["+"].grid(row=7, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["-"].grid(row=6, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x"].grid(row=5, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["/"].grid(row=4, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x²"].grid(row=4, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["x³"].grid(row=4, column=1, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["+"].grid(row=7, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["-"].grid(row=6, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["x"].grid(row=5, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["/"].grid(row=4, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["x²"].grid(row=4, column=2, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["x³"].grid(row=4, column=1, padx=1, pady=1, sticky=N + S + E + W)
 
         # Special keys
-        self.buttons["="].grid(row=8, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["⁺/-"].grid(row=8, column=0, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["."].grid(row=8, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons[","].grid(row=4, column=0, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["?"].grid(row=2, column=0, padx=1, pady=1,sticky=N+S+E+W)
+        self.buttons["="].grid(row=8, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["B"].grid(row=2, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["⁺/-"].grid(row=8, column=0, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["."].grid(row=8, column=2, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons[","].grid(row=4, column=0, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["?"].grid(row=2, column=0, padx=1, pady=1, sticky=N + S + E + W)
 
-        #Function keys
-        self.buttons["M"].grid(row=3, column=0, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["Me"].grid(row=3, column=1, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["MCM"].grid(row=3, column=2, padx=1, pady=1,sticky=N+S+E+W)
-        self.buttons["MCD"].grid(row=3, column=3, padx=1, pady=1,sticky=N+S+E+W)
+        # Function keys
+        self.buttons["M"].grid(row=3, column=0, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["Me"].grid(row=3, column=1, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["MCM"].grid(row=3, column=2, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["MCD"].grid(row=3, column=3, padx=1, pady=1, sticky=N + S + E + W)
 
     def setStyle(self):
-        #Style based on Dracula colorscheme
+        # Style based on Dracula colorscheme
         self.style = ttk.Style()
         self.style.configure("Dracula1.TFrame", background="#4D4D4D")
         self.style.configure(
@@ -195,25 +202,31 @@ class Calculator:
 
     def setKeybindings(self):
         for i in range(10):
-            self.root.bind(str(i),lambda event, x = str(i): self.putNumber(x))
-            self.root.bind("<KP_"+str(i)+">",lambda event, x = str(i): self.putNumber(x))
-        
-        self.root.bind("+",lambda event: self.buttons["+"].invoke())
-        self.root.bind("-",lambda event: self.buttons["-"].invoke())
-        self.root.bind("*",lambda event: self.buttons["x"].invoke())
-        self.root.bind("/",lambda event: self.buttons["/"].invoke())
-        self.root.bind("<KP_Add>",lambda event: self.buttons["+"].invoke())
-        self.root.bind("<KP_Subtract>",lambda event: self.buttons["-"].invoke())
-        self.root.bind("<KP_Multiply>",lambda event: self.buttons["x"].invoke())
-        self.root.bind("<KP_Divide>",lambda event: self.buttons["/"].invoke())
+            self.root.bind(str(i), lambda event, x=str(i): self.putNumber(x))
+            self.root.bind(
+                "<KP_" + str(i) + ">", lambda event, x=str(i): self.putNumber(x)
+            )
 
-        self.root.bind("<Return>",lambda event: self.buttons["="].invoke())
-        self.root.bind("<KP_Enter>",lambda event: self.buttons["="].invoke())
-        self.root.bind("<BackSpace>",lambda event: self.backspace())
-        self.root.bind("<Delete>",lambda event: self.clear())
+        self.root.bind("+", lambda event: self.buttons["+"].invoke())
+        self.root.bind("-", lambda event: self.buttons["-"].invoke())
+        self.root.bind("*", lambda event: self.buttons["x"].invoke())
+        self.root.bind("/", lambda event: self.buttons["/"].invoke())
+        self.root.bind("<KP_Add>", lambda event: self.buttons["+"].invoke())
+        self.root.bind("<KP_Subtract>", lambda event: self.buttons["-"].invoke())
+        self.root.bind("<KP_Multiply>", lambda event: self.buttons["x"].invoke())
+        self.root.bind("<KP_Divide>", lambda event: self.buttons["/"].invoke())
+
+        self.root.bind(".", lambda event: self.buttons["."].invoke())
+        self.root.bind("<KP_Decimal>", lambda event: self.buttons["."].invoke())
+        self.root.bind(",", lambda event: self.buttons[","].invoke())
+
+        self.root.bind("<Return>", lambda event: self.buttons["="].invoke())
+        self.root.bind("<KP_Enter>", lambda event: self.buttons["="].invoke())
+        self.root.bind("<BackSpace>", lambda event: self.backspace())
+        self.root.bind("<Delete>", lambda event: self.clear())
 
     def putNumber(self, number: str):
-        #After get a result, we need make some cleanup
+        # After get a result, we need make some cleanup
         if self.equal_latch:
             self.clear()
             self.equal_latch = False
@@ -225,53 +238,58 @@ class Calculator:
         input_limit = 5
         if not (sz == input_limit or (number == "0" and sz == 0)):
             self.buffer.set(self.buffer.get() + number)
-    
+
     def putFunction(self, function: str):
-        functions = {"M" : self.mean, "Me" : self.median, "MCM" : self.MCM, "MCD":self.MCD}
+        functions = {
+            "M": self.mean,
+            "Me": self.median,
+            "MCM": self.MCM,
+            "MCD": self.MCD,
+        }
         temp = ""
 
-        #Same cleanup, but we store the result as function first argument
+        # Same cleanup, but we store the result as function first argument
         if self.equal_latch:
             temp = self.buffer.get()
             self.clear()
             self.equal_latch = False
 
-        #For simplicity, I avoid function nesting
+        # For simplicity, I avoid function nesting
         if len(self.buffer.get()) > 0 or len(self.sub_buffer.get()) > 0:
             return
 
         self.function_latch = True
 
-        if (len(temp) != 0):
+        if len(temp) != 0:
             self.sub_buffer.set(functions[function].__name__ + "(" + temp + ",")
             self.eval_buffer = "self." + functions[function].__name__ + "(" + temp + ","
         else:
             self.sub_buffer.set(functions[function].__name__ + "(")
             self.eval_buffer = "self." + functions[function].__name__ + "("
 
-    #Probably these functions exist in the standard library
-    #But i implemented for educational purposes
-    def mean(self,*args):
+    # Probably these functions exist in the standard library
+    # But i implemented for educational purposes
+    def mean(self, *args):
         if len(args) == 0:
             return 0
         ret = 0
         for arg in args:
             ret += arg
-        return ret/len(args)
+        return ret / len(args)
 
-    def median(self,*args):
+    def median(self, *args):
         if len(args) == 0:
             return 0
         size = len(args)
         if size % 2 == 0:
-            return (args[(size-1)//2] + args[size//2]) / 2
+            return (args[(size - 1) // 2] + args[size // 2]) / 2
         else:
-            return args[(size-1)//2]
+            return args[(size - 1) // 2]
 
-    def MCM(self,*args):
+    def MCM(self, *args):
         return len(args)
 
-    def MCD(self,*args):
+    def MCD(self, *args):
         return len(args)
 
     def backspace(self):
@@ -291,7 +309,7 @@ class Calculator:
         self.dot_latch = True
 
     def comma(self):
-        #Comma is only usen to separate function args
+        # Comma is only usen to separate function args
         if not self.function_latch:
             return
 
@@ -299,7 +317,7 @@ class Calculator:
             return
 
         temp = self.sub_buffer.get()
-        #For first argumnet and operators we put comma on right side, otherwise to left side
+        # For first argumnet and operators we put comma on right side, otherwise to left side
         if temp[-1] == "(" or temp[-1] not in range(10):
             temp += self.buffer.get() + ","
             self.eval_buffer += self.buffer.get() + ","
@@ -309,7 +327,7 @@ class Calculator:
         self.sub_buffer.set(temp)
         self.buffer.set("")
         self.dot_latch = False
-        self.last_operator = "," 
+        self.last_operator = ","
 
     def sign(self):
         temp = self.buffer.get()
@@ -326,7 +344,7 @@ class Calculator:
         if len(self.buffer.get()) == 0 and not self.isUnary(self.last_operator):
             return
 
-        #Allow result-operator chaining
+        # Allow result-operator chaining
         if self.equal_latch:
             self.sub_buffer.set("")
             self.eval_buffer = ""
@@ -349,7 +367,7 @@ class Calculator:
         self.dot_latch = False
 
     def equal(self):
-        #Prevent to press equal button twice
+        # Prevent to press equal button twice
         if self.equal_latch:
             return
 
@@ -360,7 +378,7 @@ class Calculator:
 
         temp = self.sub_buffer.get() + self.buffer.get()
         self.eval_buffer += self.buffer.get()
-        
+
         if self.function_latch:
             temp += ")"
             self.eval_buffer += ")"
@@ -388,7 +406,7 @@ class Calculator:
 
     def getResult(self):
         return float(self.buffer.get())
-    
+
     def help(self):
         pass
 
