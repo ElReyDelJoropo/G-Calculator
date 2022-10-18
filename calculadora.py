@@ -85,8 +85,8 @@ class Calculator:
 
     def layoutWidgets(self):
         # Is a bunch of boilerplate code, but is necessary
+        button_common = {"padx": 1, "pady": 1, "sticky": N + S + E + W}
         self.mainframe.grid()
-
         self.result.grid(row=1, column=0, columnspan=4, sticky=E + W)
         self.sub_result.grid(row=0, column=0, columnspan=4, sticky=E + W)
 
@@ -99,31 +99,31 @@ class Calculator:
                 pady=1,
                 sticky=N + S + W + E,
             )
-        self.buttons[0].grid(row=8, column=1, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons[0].grid(row=8, column=1, **button_common)
 
         # Operators
-        self.buttons["+"].grid(row=7, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["-"].grid(row=6, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["x"].grid(row=5, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["/"].grid(row=4, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["x²"].grid(row=4, column=2, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["x³"].grid(row=4, column=1, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["+"].grid(row=7, column=3, **button_common)
+        self.buttons["-"].grid(row=6, column=3, **button_common)
+        self.buttons["x"].grid(row=5, column=3, **button_common)
+        self.buttons["/"].grid(row=4, column=3, **button_common)
+        self.buttons["x²"].grid(row=4, column=2, **button_common)
+        self.buttons["x³"].grid(row=4, column=1, **button_common)
 
         # Special keys
-        self.buttons["="].grid(row=8, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["C"].grid(row=2, column=2, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["CE"].grid(row=2, column=1, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["←"].grid(row=2, column=3, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["⁺/-"].grid(row=8, column=0, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["."].grid(row=8, column=2, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons[","].grid(row=4, column=0, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["?"].grid(row=2, column=0, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["="].grid(row=8, column=3, **button_common)
+        self.buttons["C"].grid(row=2, column=2, **button_common)
+        self.buttons["CE"].grid(row=2, column=1, **button_common)
+        self.buttons["←"].grid(row=2, column=3, **button_common)
+        self.buttons["⁺/-"].grid(row=8, column=0, **button_common)
+        self.buttons["."].grid(row=8, column=2, **button_common)
+        self.buttons[","].grid(row=4, column=0, **button_common)
+        self.buttons["?"].grid(row=2, column=0, **button_common)
 
         # Function keys
-        self.buttons["M"].grid(row=3, column=0, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["Me"].grid(row=3, column=1, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["LCM"].grid(row=3, column=2, padx=1, pady=1, sticky=N + S + E + W)
-        self.buttons["GCD"].grid(row=3, column=3, padx=1, pady=1, sticky=N + S + E + W)
+        self.buttons["M"].grid(row=3, column=0, **button_common)
+        self.buttons["Me"].grid(row=3, column=1, **button_common)
+        self.buttons["LCM"].grid(row=3, column=2, **button_common)
+        self.buttons["GCD"].grid(row=3, column=3, **button_common)
 
     def createStyles(self):
         style_common = {
