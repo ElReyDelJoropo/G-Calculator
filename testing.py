@@ -40,6 +40,7 @@ class calculatorTests(unittest.TestCase):
 
         with open("logfile.txt", "w", encoding="utf-8") as logfile:
             # With range > 100000 my pc takes 6+ hours
+            # Calculator have a quirk with eval function when exceeds certarin amount number width
             # Should be a way to improve this
             button_list = list(self.calc.buttons)
             for i in range(1, 100):
