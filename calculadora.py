@@ -31,8 +31,8 @@ class Calculator:
         self.dot_latch = False
         self.function_latch = False
 
-        self.createWidgets()
         self.setStyles()
+        self.createWidgets()
         self.setKeybindings()
         self.layoutWidgets()
 
