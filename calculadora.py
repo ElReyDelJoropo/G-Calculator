@@ -32,7 +32,7 @@ class Calculator:
         self.function_latch = False
 
         self.createWidgets()
-        self.createStyles()
+        self.setStyles()
         self.setKeybindings()
         self.layoutWidgets()
 
@@ -85,7 +85,41 @@ class Calculator:
                     style="Dracula3.TButton",
                 )
         else:
-            pass
+            for i in range(10):
+                self.buttons[i] = Button(
+                    self.mainframe,
+                    text=str(i),
+                    command=lambda x=str(i): self.putNumber(x),
+                    **self.style_button_common,
+                    **self.style_button_dracula1
+                )
+            # Operators
+            for operator in self.operators:
+                self.buttons[operator] = Button(
+                    self.mainframe,
+                    text=operator,
+                    command=lambda op=operator: self.putOperator(op),
+                    **self.style_button_common,
+                    **self.style_button_dracula2
+                )
+            # Function keys:
+            for function in self.function_keys:
+                self.buttons[function] = Button(
+                    self.mainframe,
+                    text=function,
+                    command=lambda op=function: self.putFunction(op),
+                    **self.style_button_common,
+                    **self.style_button_dracula4
+                )
+            # Special keys
+            for key in self.special_keys:
+                self.buttons[key] = Button(
+                    self.mainframe,
+                    text=key,
+                    command=lambda func=self.special_keys[key]: func(),
+                    **self.style_button_common,
+                    **self.style_button_dracula3
+                )
 
     def layoutWidgets(self):
         # Is a bunch of boilerplate code, but is necessary
@@ -129,13 +163,13 @@ class Calculator:
         self.buttons["LCM"].grid(row=3, column=2, **button_common)
         self.buttons["GCD"].grid(row=3, column=3, **button_common)
 
-    def createStyles(self):
-
+    def setStyles(self):
         if platform.startswith("win32"):
-            self.__createStylesWin32()
+            self.__setStylesWin32()
         else:
-            self.__createStyles()
-
+            self.__setStyles()
+        
+    def __setStyles(self):
         style_common = {
             "background": "#282A36",
             "font": "Arial 12",
@@ -206,80 +240,55 @@ class Calculator:
         self.result.configure(style="Dracula1.TLabel")
         self.sub_result.configure(style="Dracula2.TLabel")
 
-    def __createStyles(self):
-        style_common = {
+    def __setStylesWin32(self):
+        self.style_button_common = {
             "background": "#282A36",
-            "font": "Arial 12",
-            "relief": FLAT,
-            "overrelief": FLAT,
+            "font": "Arial 14",
             "height": 2,
+            "width": 5,
+            "borderwidth": 0,
+            "relief": FLAT,
+            "activeforeground": "white",
+            "highlightbackground": "#282A36",
+            "highlightcolor": "blue",
         }
-        # Style based on Dracula colorscheme
+        self.style_button_dracula1 = {
+            "foreground": "#9AEDFE",
+            "activebackground": "#9AEDFE",
+        }
+        self.style_button_dracula2 = {
+            "foreground": "#50FA7B",
+            "activebackground": "#50FA7B",
+        }
+        self.style_button_dracula3 = {
+            "foreground": "#CAA9FA",
+            "activebackground": "#CAA9FA",
+        }
+        self.style_button_dracula4 = {
+            "foreground": "#F1FA8C",
+            "activebackground": "#F1FA8C",
+        }
         self.style = ttk.Style()
-        self.style.configure("Dracula1.TFrame", background="#4D4D4D")
-        self.style.configure("TkDefault.TButton", background="#282a36")
-        self.style.configure(
-            "Dracula1.TButton",
-            **style_common,
-            foreground="#9AEDFE",
-        )
-        self.style.configure(
-            "Dracula2.TButton",
-            **style_common,
-            foreground="#50FA7B",
-        )
-        self.style.configure(
-            "Dracula3.TButton",
-            **style_common,
-            foreground="#CAA9FA",
-        )
-        self.style.configure(
-            "Dracula4.TButton",
-            **style_common,
-            foreground="#F1FA8C",
-        )
         self.style.configure(
             "Dracula1.TLabel",
             foreground="white",
             background="#282A36",
-            font="Arial 16",
+            font="Arial 18",
             anchor=E,
         )
         self.style.configure(
             "Dracula2.TLabel",
             foreground="gray",
             background="#282A36",
-            font="Arial 12",
+            font="Arial 14",
             anchor=E,
         )
-        self.style.map(
-            "Dracula1.TButton",
-            background=[("pressed", "#9AEDFE"), ("active", "#9AEDFE")],
-            foreground=[("pressed", "white"), ("active", "white")],
+        self.style.configure(
+            "Dracula1.TFrame", background="#4D4D4D", foreground="#4D4D4D"
         )
-        self.style.map(
-            "Dracula2.TButton",
-            background=[("pressed", "#50FA7B"), ("active", "#50FA7B")],
-            foreground=[("pressed", "white"), ("active", "white")],
-        )
-        self.style.map(
-            "Dracula3.TButton",
-            background=[("pressed", "#CAA9FA"), ("active", "#CAA9FA")],
-            foreground=[("pressed", "white"), ("active", "white")],
-        )
-        self.style.map(
-            "Dracula4.TButton",
-            background=[("pressed", "#F1FA8C"), ("active", "#F1FA8C")],
-            foreground=[("pressed", "white"), ("active", "white")],
-        )
-
         self.mainframe.configure(style="Dracula1.TFrame")
         self.result.configure(style="Dracula1.TLabel")
         self.sub_result.configure(style="Dracula2.TLabel")
-
-    def __createStylesWin32(self):
-        pass
-
 
     def setKeybindings(self):
         for i in range(10):
