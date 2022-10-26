@@ -368,7 +368,11 @@ class Calculator:
         temp = self.buffer.get()
         if temp and temp[-1] == ".":
             self.dot_latch = False
-        self.buffer.set(temp[0:-1])
+
+        if len(temp) == 2 and temp[0] == "-":
+            self.buffer.set("")
+        else:
+            self.buffer.set(temp[0:-1])
 
     def isUnary(self, operator: str):
         self.unary_operators = ("²", "³")
