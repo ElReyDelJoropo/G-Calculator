@@ -33,21 +33,24 @@ class calculatorTests(unittest.TestCase):
         self.assertEqual(self.calc.getResult(), 8)
 
     # This test tries calculartor's thougtness by pressing random buttons
-    # Note: Is terrybly slow, also my pc is a potato
     def test_random(self):
         button_history = []
         buf = ""
+        button_list = list(self.calc.buttons)
 
         with open("logfile.txt", "w", encoding="utf-8") as logfile:
-            # With range > 100000 my pc takes 6+ hours
             # Calculator have a quirk with eval function when exceeds certarin amount number width
             # Should be a way to improve this
-            button_list = list(self.calc.buttons)
-            for i in range(1, 100):
+            # I dont fully understand python exception handling
+            # In C++ things are much simpler
+            for i in range(1, 100000):
                 button_history.append(random.choice(button_list))
                 buf += str(button_history[-1]) + " "
+                if len(self.calc.eval_buffer) > 6:
+                    self.calc.clear()
                 self.calc.buttons[button_history[-1]].invoke()
-                if i % 48 == 0:
+
+                if i % 16 == 0:
                     buf += "\n"
             logfile.write(buf)
 

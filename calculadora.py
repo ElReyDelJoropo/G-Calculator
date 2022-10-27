@@ -462,7 +462,6 @@ class Calculator:
             self.eval_buffer += ")"
         # if self.operator in ["x²","x³"]:
         #    self.rhs = int(self.buffer.get())
-
         self.buffer.set(str(round(eval(self.eval_buffer), 9)))
         self.sub_buffer.set(temp + "=")
         self.equal_latch = True
