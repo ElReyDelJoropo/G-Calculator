@@ -497,7 +497,10 @@ class Calculator:
 
     # TODO:Not implemented yet
     def LCM(self, *args):
-        return len(args)
+        lcm = args[0]
+        for i in args[1:]:
+            lcm = lcm*i//gcd(lcm,i)
+        return lcm
 
     def getResult(self):
         return float(self.buffer.get())

@@ -32,6 +32,16 @@ class calculatorTests(unittest.TestCase):
         self.calc.equal()
         self.assertEqual(self.calc.getResult(), 8)
 
+    def test_lcm(self):
+        self.calc.putFunction("LCM")
+        self.calc.putNumber("1")
+        self.calc.putNumber("2")
+        self.calc.comma()
+        self.calc.putNumber("4")
+        self.calc.comma()
+        self.calc.putNumber("3")
+        self.calc.equal()
+        self.assertEqual(self.calc.getResult(), 12)
     # This test tries calculartor's thougtness by pressing random buttons
     def test_random(self):
         button_history = []
