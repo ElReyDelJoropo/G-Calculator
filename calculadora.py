@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from sys import platform
+from math import gcd
 
 
 class Calculator:
@@ -357,12 +358,8 @@ class Calculator:
             self.sub_buffer.set(functions[function].__name__ + "(")
             self.eval_buffer = "self." + functions[function].__name__ + "("
 
-    # Probably these functions exist in the standard library
-    # But i implemented for educational purposes
-
-    # TODO:Not implemented yet
     def GCD(self, *args):
-        return len(args)
+        return gcd(*args)
 
     def backspace(self):
         temp = self.buffer.get()
