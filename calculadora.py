@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from sys import platform
+from os import getenv
 from math import gcd
 
 
@@ -498,7 +499,6 @@ class Calculator:
         else:
             return args[(size - 1) // 2]
 
-    # TODO:Not implemented yet
     def LCM(self, *args):
         lcm = args[0]
         for i in args[1:]:
@@ -509,7 +509,8 @@ class Calculator:
         return float(self.buffer.get())
 
     def help(self):
-        pass
+        print(getenv("EDITOR"))
+
 
     def display(self):
         self.root.mainloop()
